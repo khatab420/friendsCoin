@@ -330,24 +330,24 @@
 
             <div class="task-card" data-task="follow">
                 <div class="task-header">
-                    <div class="task-title">📱 Follow Us</div>
+                    <div class="task-title">📱 Follow Our YouTube</div>
                     <div class="task-reward">+50 FC</div>
                 </div>
                 <div class="task-description">
-                    Follow our social media accounts to stay updated with the latest news and earn tokens!
+                    Subscribe to our YouTube channel @pcslearning2974 to stay updated with the latest content and earn tokens!
                 </div>
-                <button class="task-button start" onclick="startTask('follow')">Start Task</button>
+                <button class="task-button start" onclick="startTask('follow')">Subscribe Now</button>
             </div>
 
             <div class="task-card" data-task="share">
                 <div class="task-header">
-                    <div class="task-title">🔄 Share with Friends</div>
+                    <div class="task-title">🔄 Share YouTube Channel</div>
                     <div class="task-reward">+75 FC</div>
                 </div>
                 <div class="task-description">
-                    Share this airdrop with your friends and help grow our community!
+                    Share our YouTube channel @pcslearning2974 with your friends and help grow our community!
                 </div>
-                <button class="task-button start" onclick="startTask('share')">Start Task</button>
+                <button class="task-button start" onclick="startTask('share')">Share Channel</button>
             </div>
 
             <div class="task-card" data-task="quiz">
@@ -482,22 +482,63 @@
             if (task.completed) return;
             
             if (!task.started) {
+                // Open YouTube link for follow and share tasks
+                if (taskId === 'follow') {
+                    window.open('https://www.youtube.com/@pcslearning2974', '_blank');
+                    showNotification('Please subscribe to the YouTube channel and then verify!');
+                } else if (taskId === 'share') {
+                    // Create share text with YouTube link
+                    const shareText = `Check out this awesome YouTube channel: https://www.youtube.com/@pcslearning2974 🚀`;
+                    
+                    // Try to use Web Share API if available
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'PCS Learning YouTube Channel',
+                            text: shareText,
+                            url: 'https://www.youtube.com/@pcslearning2974'
+                        }).catch(() => {
+                            // Fallback to copying to clipboard
+                            copyToClipboard(shareText);
+                        });
+                    } else {
+                        // Fallback to copying to clipboard
+                        copyToClipboard(shareText);
+                    }
+                    showNotification('Share link copied! Share it with friends and then verify!');
+                }
+                
                 task.started = true;
                 updateTaskButton(taskId, 'verify', 'Verify & Claim');
                 
-                // Simulate task completion after 3 seconds for demo
-                setTimeout(() => {
-                    if (!task.completed) {
-                        completeTask(taskId);
-                    }
-                }, 3000);
-                
-                showNotification(`Task started! Complete the required action.`);
+                // For other tasks, simulate completion after 3 seconds
+                if (taskId !== 'follow' && taskId !== 'share') {
+                    setTimeout(() => {
+                        if (!task.completed) {
+                            completeTask(taskId);
+                        }
+                    }, 3000);
+                    showNotification(`Task started! Complete the required action.`);
+                }
             } else {
                 completeTask(taskId);
             }
             
             saveGameState();
+        }
+        
+        // Copy text to clipboard
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text);
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
         }
 
         // Complete a task
