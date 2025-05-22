@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 FriendsCoin Airdrop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        .balance-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .balance {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
+
+        .balance-label {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .task-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .task-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .task-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .task-reward {
+            background: #FFD700;
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .task-description {
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .task-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .task-button.start {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .task-button.verify {
+            background: #FF9800;
+            color: white;
+        }
+
+        .task-button.completed {
+            background: #28a745;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .task-button:hover:not(.completed) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .leaderboard-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rank {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .user-points {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        .points {
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .profile-form {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 1em;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .save-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #4CAF50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .save-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .medal {
+            margin-right: 5px;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 8px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #FFD700;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🚀</div>
+            <div class="title">FriendsCoin Airdrop</div>
+            <div class="subtitle">Complete tasks and earn rewards!</div>
+        </div>
+
+        <div class="balance-card">
+            <div class="balance" id="balance">0</div>
+            <div class="balance-label">FC Tokens</div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('tasks')">Tasks</div>
+            <div class="tab" onclick="switchTab('leaderboard')">Leaderboard</div>
+            <div class="tab" onclick="switchTab('profile')">Profile</div>
+        </div>
+
+        <div id="tasks" class="tab-content active">
+            <div class="task-card" data-task="welcome">
+                <div class="task-header">
+                    <div class="task-title">🎉 Welcome Bonus</div>
+                    <div class="task-reward">+100 FC</div>
+                </div>
+                <div class="task-description">
+                    Get started with your first 100 FC tokens! Just claim your welcome bonus.
+                </div>
+                <button class="task-button start" onclick="startTask('welcome')">Claim Bonus</button>
+            </div>
+
+            <div class="task-card" data-task="follow">
+                <div class="task-header">
+                    <div class="task-title">📱 Follow Us</div>
+                    <div class="task-reward">+50 FC</div>
+                </div>
+                <div class="task-description">
+                    Follow our social media accounts to stay updated with the latest news and earn tokens!
+                </div>
+                <button class="task-button start" onclick="startTask('follow')">Start Task</button>
+            </div>
+
+            <div class="task-card" data-task="share">
+                <div class="task-header">
+                    <div class="task-title">🔄 Share with Friends</div>
+                    <div class="task-reward">+75 FC</div>
+                </div>
+                <div class="task-description">
+                    Share this airdrop with your friends and help grow our community!
+                </div>
+                <button class="task-button start" onclick="startTask('share')">Start Task</button>
+            </div>
+
+            <div class="task-card" data-task="quiz">
+                <div class="task-header">
+                    <div class="task-title">🧠 Knowledge Quiz</div>
+                    <div class="task-reward">+125 FC</div>
+                </div>
+                <div class="task-description">
+                    Test your knowledge about crypto and blockchain technology!
+                </div>
+                <button class="task-button start" onclick="startTask('quiz')">Start Quiz</button>
+            </div>
+
+            <div class="task-card" data-task="daily">
+                <div class="task-header">
+                    <div class="task-title">📅 Daily Check-in</div>
+                    <div class="task-reward">+25 FC</div>
+                </div>
+                <div class="task-description">
+                    Check in daily to earn tokens and maintain your streak!
+                </div>
+                <button class="task-button start" onclick="startTask('daily')">Check In</button>
+            </div>
+        </div>
+
+        <div id="leaderboard" class="tab-content">
+            <div id="leaderboard-list">
+                <!-- Leaderboard items will be populated here -->
+            </div>
+        </div>
+
+        <div id="profile" class="tab-content">
+            <div class="profile-form">
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="username" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Telegram Handle</label>
+                    <input type="text" class="form-input" id="telegram" placeholder="@yourusername">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Wallet Address</label>
+                    <input type="text" class="form-input" id="wallet" placeholder="0x...">
+                </div>
+                <button class="save-button" onclick="saveProfile()">Save Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Game state
+        let gameState = {
+            balance: 0,
+            tasks: {
+                welcome: { completed: false, started: false },
+                follow: { completed: false, started: false },
+                share: { completed: false, started: false },
+                quiz: { completed: false, started: false },
+                daily: { completed: false, started: false }
+            },
+            profile: {
+                username: '',
+                telegram: '',
+                wallet: ''
+            },
+            lastDailyCheck: null
+        };
+
+        // Task rewards
+        const taskRewards = {
+            welcome: 100,
+            follow: 50,
+            share: 75,
+            quiz: 125,
+            daily: 25
+        };
+
+        // Sample leaderboard data
+        let leaderboard = [
+            { username: 'CryptoKing', points: 1250 },
+            { username: 'TokenHunter', points: 980 },
+            { username: 'BlockchainBro', points: 750 },
+            { username: 'AirdropQueen', points: 625 },
+            { username: 'DeFiMaster', points: 500 }
+        ];
+
+        // Initialize the game
+        function initGame() {
+            loadGameState();
+            updateBalance();
+            updateTaskStates();
+            updateLeaderboard();
+            loadProfile();
+        }
+
+        // Load game state from localStorage
+        function loadGameState() {
+            const saved = localStorage.getItem('friendscoin_airdrop');
+            if (saved) {
+                gameState = { ...gameState, ...JSON.parse(saved) };
+            }
+        }
+
+        // Save game state to localStorage
+        function saveGameState() {
+            localStorage.setItem('friendscoin_airdrop', JSON.stringify(gameState));
+        }
+
+        // Update balance display
+        function updateBalance() {
+            document.getElementById('balance').textContent = gameState.balance;
+        }
+
+        // Switch between tabs
+        function switchTab(tabName) {
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding content
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Start a task
+        function startTask(taskId) {
+            const task = gameState.tasks[taskId];
+            
+            if (task.completed) return;
+            
+            if (!task.started) {
+                task.started = true;
+                updateTaskButton(taskId, 'verify', 'Verify & Claim');
+                
+                // Simulate task completion after 3 seconds for demo
+                setTimeout(() => {
+                    if (!task.completed) {
+                        completeTask(taskId);
+                    }
+                }, 3000);
+                
+                showNotification(`Task started! Complete the required action.`);
+            } else {
+                completeTask(taskId);
+            }
+            
+            saveGameState();
+        }
+
+        // Complete a task
+        function completeTask(taskId) {
+            const task = gameState.tasks[taskId];
+            
+            if (task.completed) return;
+            
+            // Special handling for daily task
+            if (taskId === 'daily') {
+                const today = new Date().toDateString();
+                if (gameState.lastDailyCheck === today) {
+                    showNotification('You already checked in today!');
+                    return;
+                }
+                gameState.lastDailyCheck = today;
+            }
+            
+            task.completed = true;
+            gameState.balance += taskRewards[taskId];
+            
+            updateBalance();
+            updateTaskButton(taskId, 'completed', '✓ Completed');
+            updateLeaderboard();
+            
+            showNotification(`+${taskRewards[taskId]} FC earned! 🎉`);
+            saveGameState();
+        }
+
+        // Update task button state
+        function updateTaskButton(taskId, state, text) {
+            const taskCard = document.querySelector(`[data-task="${taskId}"]`);
+            const button = taskCard.querySelector('.task-button');
+            
+            button.className = `task-button ${state}`;
+            button.textContent = text;
+            
+            if (state === 'completed') {
+                button.disabled = true;
+            }
+        }
+
+        // Update all task states on load
+        function updateTaskStates() {
+            Object.keys(gameState.tasks).forEach(taskId => {
+                const task = gameState.tasks[taskId];
+                
+                if (task.completed) {
+                    updateTaskButton(taskId, 'completed', '✓ Completed');
+                } else if (task.started) {
+                    updateTaskButton(taskId, 'verify', 'Verify & Claim');
+                }
+            });
+            
+            // Check daily task
+            const today = new Date().toDateString();
+            if (gameState.lastDailyCheck === today && !gameState.tasks.daily.completed) {
+                gameState.tasks.daily.completed = true;
+                updateTaskButton('daily', 'completed', '✓ Completed');
+            }
+        }
+
+        // Update leaderboard
+        function updateLeaderboard() {
+            // Add current user to leaderboard if they have points
+            if (gameState.balance > 0 && gameState.profile.username) {
+                const userIndex = leaderboard.findIndex(user => user.username === gameState.profile.username);
+                
+                if (userIndex >= 0) {
+                    leaderboard[userIndex].points = gameState.balance;
+                } else {
+                    leaderboard.push({ username: gameState.profile.username, points: gameState.balance });
+                }
+            }
+            
+            // Sort leaderboard by points
+            leaderboard.sort((a, b) => b.points - a.points);
+            
+            // Display leaderboard
+            const leaderboardList = document.getElementById('leaderboard-list');
+            leaderboardList.innerHTML = '';
+            
+            leaderboard.slice(0, 10).forEach((user, index) => {
+                const isCurrentUser = user.username === gameState.profile.username;
+                const medal = index < 3 ? ['🥇', '🥈', '🥉'][index] : '';
+                
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+                item.style.background = isCurrentUser ? 'rgba(255, 215, 0, 0.2)' : 'rgba(255, 255, 255, 0.1)';
+                
+                item.innerHTML = `
+                    <div class="rank">${medal}${index + 1}</div>
+                    <div class="user-info">
+                        <div class="username">${user.username}${isCurrentUser ? ' (You)' : ''}</div>
+                        <div class="user-points">${user.points} FC tokens</div>
+                    </div>
+                    <div class="points">${user.points}</div>
+                `;
+                
+                leaderboardList.appendChild(item);
+            });
+        }
+
+        // Save profile
+        function saveProfile() {
+            const username = document.getElementById('username').value.trim();
+            const telegram = document.getElementById('telegram').value.trim();
+            const wallet = document.getElementById('wallet').value.trim();
+            
+            if (!username) {
+                showNotification('Please enter a username!');
+                return;
+            }
+            
+            gameState.profile = { username, telegram, wallet };
+            saveGameState();
+            updateLeaderboard();
+            
+            showNotification('Profile saved successfully! 🎉');
+        }
+
+        // Load profile
+        function loadProfile() {
+            const { username, telegram, wallet } = gameState.profile;
+            
+            document.getElementById('username').value = username || '';
+            document.getElementById('telegram').value = telegram || '';
+            document.getElementById('wallet').value = wallet || '';
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize the game when page loads
+        document.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>
